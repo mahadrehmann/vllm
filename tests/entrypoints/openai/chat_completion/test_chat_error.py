@@ -523,3 +523,19 @@ def test_structured_outputs_structural_tag_invalid(structural_tag):
             messages=[{"role": "user", "content": "hello"}],
             structured_outputs={"structural_tag": structural_tag},
         )
+
+
+def test_empty_messages_validation():
+    """Empty messages list must be rejected at validation time.
+
+    Regression test: previously an empty list passed Pydantic validation
+    and crashed deep in the chat template renderer with an IndexError
+    from transformers, surfacing as a generic 400 instead of a clear
+    validation error.
+    """
+    with pytest.raises(ValidationError, match="messages"):
+        ChatCompletionRequest(
+            model=MODEL_NAME,
+            messages=[],
+        )
+

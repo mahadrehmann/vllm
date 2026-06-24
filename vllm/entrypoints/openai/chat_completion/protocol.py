@@ -193,7 +193,7 @@ class ChatCompletionNamedToolChoiceParam(OpenAIBaseModel):
 class ChatCompletionRequest(OpenAIBaseModel):
     # Ordered by official OpenAI API documentation
     # https://platform.openai.com/docs/api-reference/chat/create
-    messages: list[ChatCompletionMessageParam]
+    messages: list[ChatCompletionMessageParam] = Field(..., min_length=1)
     model: str | None = None
     frequency_penalty: float | None = 0.0
     logit_bias: dict[str, float] | None = None
